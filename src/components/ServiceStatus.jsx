@@ -5,7 +5,7 @@ import Mozaik                          from 'mozaik/browser';
 
 //export default React.createClass(
 
-class Data extends Component {
+class ServiceStatus extends Component {
     constructor(props) {
         super(props);
 
@@ -40,7 +40,7 @@ class Data extends Component {
     }
 
     render() {
-        var title = "unknown", value = "unknown", unit = null;
+        var title = "unknown", value = "unknown";
         if (this.state.title){
             title = this.state.title;
         }
