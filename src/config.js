@@ -8,7 +8,7 @@ var config = convict({
             format:  String,
             env:     'NAGIOS_API_BASE_URL'
         },
-        url: {
+        key: {
             doc:     'The Nagios API KEY.',
             default: null,
             format:  String,
