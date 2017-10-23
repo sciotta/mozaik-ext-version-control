@@ -1,13 +1,13 @@
 {
-  "name": "mozaik-ext-json",
-  "version": "0.0.12",
-  "description": "Mozaïk json extension",
+  "name": "mozaik-ext-nagios",
+  "version": "0.0.1",
+  "description": "Mozaïk nagios extension",
   "engines": {
     "node": "0.10.x"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jtbonhomme/mozaik-ext-json.git"
+    "url": "https://github.com/thiagog3/mozaik-ext-nagios.git"
   },
   "dependencies": {
     "chalk": "^0.5.1",
@@ -28,13 +28,10 @@
   },
   "readme": "# Mozaïk mozaik-ext-json extension !! WORK IN PROGRESS !!\n\nTo install mozaik-ext-json from npm, run:\n\n```bash\nnpm install --save mozaik-ext-json\n```",
   "readmeFilename": "README.md",
-  "gitHead": "6676fba955f528f3d2e5aa966bd06e73838dcb6d",
   "bugs": {
-    "url": "https://github.com/jtbonhomme/mozaik-ext-json/issues"
+    "url": "https://github.com/thiagog3/mozaik-ext-nagios/issues"
   },
-  "homepage": "https://github.com/jtbonhomme/mozaik-ext-json",
-  "_id": "mozaik-ext-json@0.0.8",
-  "scripts": {},
-  "_shasum": "4ae39590eb699977f5d433f4cdd22349c1946a4f",
-  "_from": "mozaik-ext-json@^0.0.8"
+  "homepage": "https://github.com/thiagog3/mozaik-ext-nagios",
+  "_id": "mozaik-ext-nagios@0.0.1",
+  "scripts": {}
 }

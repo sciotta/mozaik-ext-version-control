@@ -9,59 +9,33 @@ class Data extends Component {
     constructor(props) {
         super(props);
 
-        this.state = { title: null, value: null, unit: null, alter: null };
+        this.state = { title: null, value: null };
     }
 
     getInitialState() {
         return {
             title: null,
-            value: null,
-            unit: null,
-            alter: null
+            value: null
         };
     }
 
     getApiRequest() {
         return {
-          id: 'json.data',
+          id: 'nagios.serviceStatus',
           params: {
-            title: this.props.title,
-            value: this.props.value,
-            unit: this.props.unit,
-            alter: this.props.alter
+            hostName: this.props.hostName
           }
         };
     }
 
-    findProp(obj, prop, defval){
-        if (typeof defval === 'undefined') defval = null;
-        if (typeof prop !== 'undefined' && prop && prop.match(/\$\{.*\}/)) {
-            // ${key.prop.value} -> key.prop.value
-            prop = prop.split('${')[1].split('}')[0]
-            // key.prop.value -> [key, prop, value]
-            prop = prop.split('.');
-            for (var i = 0; i < prop.length; i++) {
-                if(typeof obj[prop[i]] == 'undefined')
-                    return defval;
-                obj = obj[prop[i]];
-            }
-            return obj;
-        }
-        else {
-            return prop;
-        }
-    }
-
     onApiData(data) {
-        // Filter if defined
-        if (this.props.alter) {
-          var alter = eval("(" + this.props.alter + ")");
-          data = alter(data);
-        }
+        const serviceStatus = data.servicestatuslist.servicestatus[0];
+        const displayName = serviceStatus.display_name;
+        const status = serviceStatus.status_text;
+
         this.setState({
-            title: this.findProp(data, this.props.title),
-            value: this.findProp(data, this.props.value),
-            unit: this.findProp(data, this.props.unit)
+            title: displayName,
+            value: status
         });
     }
 
@@ -72,9 +46,6 @@ class Data extends Component {
         }
         if (this.state.value){
             value = this.state.value;
-        }
-        if (this.state.unit){
-            unit = this.state.unit;
         }
 
         return (
@@ -87,7 +58,7 @@ class Data extends Component {
                 </div>
                 <div className="json__value">
                     <span>
-                        {value} {unit}
+                        {value} 
                     </span>
                 </div>
             </div>
@@ -95,18 +66,16 @@ class Data extends Component {
     }
 }
 
-Data.displayName = 'Data';
+Data.displayName = 'ServiceStatus';
 
 Data.propTypes = {
     title: PropTypes.string.isRequired,
-    value: PropTypes.number,
-    unit:  PropTypes.string
+    hostName: PropTypes.string.isRequired,
 };
 
 Data.defaultProps = {
-    title: 'Mozaïk JSON widget',
-    value: 0,
-    unit:  ''
+    title: 'Mozaïk Nagios widget',
+    value: 'empty'
 };
 
 reactMixin(Data.prototype, ListenerMixin);

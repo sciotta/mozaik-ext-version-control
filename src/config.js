@@ -1,20 +1,18 @@
 var convict = require('convict');
 
 var config = convict({
-    json: {
+    nagios: {
         url: {
-          doc:     'The JSON resource url.',
-          default: 'foo',
-          format:  String,
-          env:     'JSON_RES_URL'
+            doc:     'The Nagios service url.',
+            default: null,
+            format:  String,
+            env:     'NAGIOS_API_BASE_URL'
         },
-        headers : {
-          doc:     'Some headers',
-          default: [],
-          format:   Array,
-          env:      'JSON_REQ_HEADERS' 
+        url: {
+            doc:     'The Nagios API KEY.',
+            default: null,
+            format:  String,
+            env:     'NAGIOS_API_KEY'
         }
     }
 });
-
-module.exports = config;

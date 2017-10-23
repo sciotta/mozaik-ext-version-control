@@ -9,22 +9,19 @@ const client = function (mozaik) {
 
     mozaik.loadApiConfig(config);
 
-    function buildApiRequest() {
-        let url     = config.get('json.url');
-        let headers = config.get('json.headers');
-        let req     = request.get(url);
+    function buildApiRequest(path) {
+        let baseUrl   = config.get('nagios.url');
+        let apiKey   = config.get('nagios.apiKey');
+        const nagiosUrl = `${baseUrl}${path}&apikey=${apiKey}`;
 
-        headers.forEach(function(header){
-            req.set(header.name, header.value);
-        });
-        mozaik.logger.info(chalk.yellow(`[json] calling ${ url }`));
-
+        mozaik.logger.info(chalk.yellow(`[nagios] calling ${ nagiosUrl }`));
+        let req         = request.get(nagiosUrl);
         return req.promise();
     }
 
     const apiCalls = {
-        data(params) {
-            return buildApiRequest()
+        serviceStatus(params) {
+            return buildApiRequest(`/objects/servicestatus?host_name=${params.hostName}`)
                 .then(res => JSON.parse(res.text))
             ;
         }
