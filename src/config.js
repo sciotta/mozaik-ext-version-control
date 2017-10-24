@@ -16,3 +16,5 @@ var config = convict({
         }
     }
 });
+
+module.exports = config;

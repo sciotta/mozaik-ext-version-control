@@ -9,24 +9,30 @@ const client = function (mozaik) {
 
     mozaik.loadApiConfig(config);
 
-    function buildApiRequest(path) {
+    function buildRequest(path) {
+        mozaik.logger.info(chalk.yellow(`[nagios] fetching from ${ path }`));
+
         let baseUrl   = config.get('nagios.url');
-        let apiKey   = config.get('nagios.apiKey');
+        let apiKey   = config.get('nagios.key');
         const nagiosUrl = `${baseUrl}${path}&apikey=${apiKey}`;
 
         mozaik.logger.info(chalk.yellow(`[nagios] calling ${ nagiosUrl }`));
         let req         = request.get(nagiosUrl);
-        return req.promise();
+        
+        return req.promise().catch(error => {
+            mozaik.logger.error(chalk.red(`[nagios] ${ error.error }`));
+            throw error;
+        });
     }
 
     const apiCalls = {
-        serviceStatus(params) {
-            return buildApiRequest(`/objects/servicestatus?host_name=${params.hostName}`)
-                .then(res => JSON.parse(res.text))
+        status(params) {
+            return buildRequest(`/objects/servicestatus?host_name=${params.hostName}`)
+                .then(res => res.body)
             ;
         }
     };
     return apiCalls;
 };
 
-export { client as default };
+export default client;

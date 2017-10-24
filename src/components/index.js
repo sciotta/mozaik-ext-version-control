@@ -1,5 +1,5 @@
-import ServiceStatus from './ServiceStatus.jsx';
+import Status from './Status.jsx';
 
 export default {
-	ServiceStatus: ServiceStatus
+	Status
 }

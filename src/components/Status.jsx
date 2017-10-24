@@ -5,23 +5,16 @@ import Mozaik                          from 'mozaik/browser';
 
 //export default React.createClass(
 
-class ServiceStatus extends Component {
+class Status extends Component {
     constructor(props) {
         super(props);
 
         this.state = { title: null, value: null };
     }
 
-    getInitialState() {
-        return {
-            title: null,
-            value: null
-        };
-    }
-
     getApiRequest() {
         return {
-          id: 'nagios.serviceStatus',
+          id: `nagios.status.${this.props.hostName}`,
           params: {
             hostName: this.props.hostName
           }
@@ -29,9 +22,9 @@ class ServiceStatus extends Component {
     }
 
     onApiData(data) {
-        const serviceStatus = data.servicestatuslist.servicestatus[0];
-        const displayName = serviceStatus.display_name;
-        const status = serviceStatus.status_text;
+        let serviceStatus = data.servicestatuslist.servicestatus[0];
+        let displayName = serviceStatus.display_name;
+        let status = serviceStatus.status_text;
 
         this.setState({
             title: displayName,
@@ -66,19 +59,9 @@ class ServiceStatus extends Component {
     }
 }
 
-Data.displayName = 'ServiceStatus';
+Status.displayName = 'Status';
 
-Data.propTypes = {
-    title: PropTypes.string.isRequired,
-    hostName: PropTypes.string.isRequired,
-};
+reactMixin(Status.prototype, ListenerMixin);
+reactMixin(Status.prototype, Mozaik.Mixin.ApiConsumer);
 
-Data.defaultProps = {
-    title: 'Mozaïk Nagios widget',
-    value: 'empty'
-};
-
-reactMixin(Data.prototype, ListenerMixin);
-reactMixin(Data.prototype, Mozaik.Mixin.ApiConsumer);
-
-export { Data as default };
+export default Status;
