@@ -4,6 +4,12 @@ import { ListenerMixin }               from 'reflux';
 import Mozaik                          from 'mozaik/browser';
 
 //export default React.createClass(
+const states = {
+    '0': 'OK',
+    '1': 'WARNING',
+    '2': 'CRITICAL',
+    '3': 'UNKNOWN'
+}
 
 class Status extends Component {
     constructor(props) {
@@ -22,23 +28,46 @@ class Status extends Component {
     }
 
     onApiData(data) {
-        let serviceStatus = data.servicestatuslist.servicestatus[0];
-        let displayName = serviceStatus.display_name;
-        let status = serviceStatus.status_text;
+        let mappedStatuses = []
+        let title, status;
+        let statusClasses = 'nagios__status ';
+
+        data.servicestatuslist.servicestatus.forEach(function(serviceStatus) {
+            title = serviceStatus.host_name;
+            if(serviceStatus.current_state !== '0'){
+                statusClasses += ` nagios__value--${states[serviceStatus.current_state]}`;
+            }
+
+            mappedStatuses.push({
+                type: serviceStatus.display_name,
+                state: states[serviceStatus.current_state],
+                stateClass: ` nagios__value--${states[serviceStatus.current_state]}`,
+                statusDescription: serviceStatus.status_text
+            });
+        });
 
         this.setState({
-            title: displayName,
-            value: status
+            mappedStatuses,
+            title,
+            statusClasses
         });
     }
 
     render() {
         var title = "unknown", value = "unknown";
+        var mappedStatuses = [];
+        var statusClasses = "";
+
         if (this.state.title){
             title = this.state.title;
         }
-        if (this.state.value){
-            value = this.state.value;
+
+        if (this.state.mappedStatuses){
+            mappedStatuses = this.state.mappedStatuses;
+        }
+
+        if (this.state.statusClasses){
+            statusClasses = this.state.statusClasses;
         }
 
         return (
@@ -49,10 +78,24 @@ class Status extends Component {
                     </span>
                     <i className="fa fa-table" />
                 </div>
-                <div className="json__value">
-                    <span>
-                        {value} 
-                    </span>
+                <div className="nagios__content">
+                    {mappedStatuses.map(function(mappedStatus, i){
+                        return <div>
+                            <div className="nagios__status-details">
+                                <div>{mappedStatus.type}</div>
+                                <div className="nagios__status-small-text">
+                                    {mappedStatus.statusDescription}
+                                </div>
+                            </div>
+                            <div className="nagios__value">
+                                <span className={mappedStatus.stateClass}>
+                                    {mappedStatus.state}
+                                </span>
+                            </div>
+                            <div className="nagios__clear"></div>
+                        </div>;
+                    })}
+                    
                 </div>
             </div>
         );

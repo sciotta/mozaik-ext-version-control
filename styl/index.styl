@@ -1,17 +1,28 @@
-.json {
-  &__value {
-    align-self: flex-end;
-    align-items: flex-end;
-    min-height 120px;
-    flex: 1;
-    text-align center;
-    justify-content: center;
-    flex-direction column;
-    margin-top 15px;
-    font-size 30px;
-    line-height 30px;
-    display block;
-    width 100%;
-    margin-bottom 9px;
-  }
-}
+.nagios
+  &__content
+    padding: 10px 20px
+    line-height: 16px
+    font-size: 17px
+  &__value
+    float right
+    font-size 24px
+    line-height 32px
+    &--OK
+      color $success-color
+    &--CRITICAL
+      color $failure-color
+    &--UNKNOWN
+      color $failure-color
+    &--WARNING
+      color $failure-color
+  &__status-details
+    float left
+    max-width 55%
+    padding-bottom 20px
+  &__status-small-text
+    line-height 15px
+    font-size 11px
+    padding-top 2px
+    color #deb94f
+  &__clear
+    clear:both;
