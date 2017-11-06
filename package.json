@@ -1,7 +1,7 @@
 {
-  "name": "mozaik-ext-nagios",
+  "name": "mozaik-ext-version-control",
   "version": "0.0.1",
-  "description": "Mozaïk nagios extension",
+  "description": "Mozaïk version control extension",
   "engines": {
     "node": "0.10.x"
   },
