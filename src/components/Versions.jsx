@@ -13,7 +13,7 @@ class Versions extends Component {
 
     getApiRequest() {
         return {
-          id: `nagios.version.${this.props.environment}`,
+          id: `nagios.versions.${this.props.environment}`,
           params: {
             frontend: this.props.frontend,
             backend: this.props.backend
