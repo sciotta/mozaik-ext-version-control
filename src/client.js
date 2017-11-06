@@ -1,6 +1,6 @@
 import request from 'superagent-bluebird-promise';
 import chalk   from 'chalk';
-import request from 'request';
+import pureRequest from 'request';
 
 /**
  * @param {Mozaik} mozaik
@@ -9,7 +9,7 @@ const client = function (mozaik) {
 
     function requestUrl(url) {
         var promise = new Promise(function(resolve, reject){
-            request(url, function (error, response, body) {
+            pureRequest(url, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     resolve(body);
                 }else{
