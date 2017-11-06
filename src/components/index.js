@@ -1,5 +1,5 @@
-import Status from './Status.jsx';
+import Versions from './Status.jsx';
 
 export default {
-	Status
+	Versions
 }

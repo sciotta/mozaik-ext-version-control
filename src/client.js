@@ -1,5 +1,4 @@
 import request from 'superagent-bluebird-promise';
-import config  from './config';
 import chalk   from 'chalk';
 
 /**
@@ -7,7 +6,7 @@ import chalk   from 'chalk';
  */
 const client = function (mozaik) {
 
-    mozaik.loadApiConfig(config);
+    mozaik.loadApiConfig();
 
     function versionRequest(url) {
         mozaik.logger.info(chalk.yellow(`[version] fetching from ${ url }`));
