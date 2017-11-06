@@ -1,35 +1,50 @@
 import request from 'superagent-bluebird-promise';
 import chalk   from 'chalk';
+import request from 'request';
 
 /**
  * @param {Mozaik} mozaik
  */
 const client = function (mozaik) {
 
+    function requestUrl(url) {
+        var promise = new Promise(function(resolve, reject){
+            request(url, function (error, response, body) {
+                if (!error && response.statusCode == 200) {
+                    resolve(body);
+                }else{
+                    reject(error);
+                }
+            })
+        });
+
+        return promise;
+    }
+
     function versionRequest(url) {
         mozaik.logger.info(chalk.yellow(`[version] fetching from ${ url }`));
         let req = request.get(url);
         
         return req.promise().catch(error => {
-            mozaik.logger.error(chalk.red(`[version] ${ error.error }`));
+            mozaik.logger.error(chalk.red(`[version] ${ error }`));
             throw error;
         });
     }
 
     const apiCalls = {
-        versions(params) {
-            var versions = [];
+        allVersions(params) {
+            var versionsArray = [];
 
-            versions.push(versionRequest(params.frontend)
+            versionsArray.push(requestUrl(params.frontend)
             .then(res => {
                 return {
-                    version: res.body,
+                    version: res.body || res.text,
                     type: 'frontend'
                 }
             }));
 
 
-            versions.push(versionRequest(params.backend)
+            versionsArray.push(versionRequest(params.backend)
             .then(res => {
                 return {
                     version: res.body,
@@ -37,7 +52,7 @@ const client = function (mozaik) {
                 }
             }));
 
-            return Promise.all(versions);
+            return Promise.all(versionsArray);
         }
     };
     return apiCalls;

@@ -13,7 +13,7 @@ class Versions extends Component {
 
     getApiRequest() {
         return {
-          id: `nagios.versions.${this.props.environment}`,
+          id: `versions.allVersions.${this.props.environment}`,
           params: {
             frontend: this.props.frontend,
             backend: this.props.backend
@@ -24,8 +24,10 @@ class Versions extends Component {
     onApiData(data) {
         let title = 'Titulo';
 
-        let frontendVersion = data[0];
-        let backendVersion = data[1];
+        console.log(JSON.stringify(data));
+
+        let frontendVersion = data[0].version;
+        let backendVersion = data[1].version;
 
         this.setState({
             frontendVersion,
