@@ -6,8 +6,6 @@ import chalk   from 'chalk';
  */
 const client = function (mozaik) {
 
-    mozaik.loadApiConfig();
-
     function versionRequest(url) {
         mozaik.logger.info(chalk.yellow(`[version] fetching from ${ url }`));
         let req = request.get(url);
