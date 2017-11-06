@@ -38,7 +38,7 @@ const client = function (mozaik) {
             versionsArray.push(requestUrl(params.frontend)
             .then(res => {
                 return {
-                    version: res.body || res.text,
+                    version: res.replace(/\"/g, ''),
                     type: 'frontend'
                 }
             }));
