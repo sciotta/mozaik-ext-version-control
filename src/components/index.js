@@ -1,4 +1,4 @@
-import Versions from './Status.jsx';
+import Versions from './Versions.jsx';
 
 export default {
 	Versions
