@@ -12,8 +12,9 @@ class Versions extends Component {
     }
 
     getApiRequest() {
+        var x = Math.floor((Math.random() * 1000) + 1);
         return {
-          id: `versions.allVersions.${this.props.environment}`,
+          id: `versions.allVersions.${x}`,
           params: {
             frontend: this.props.frontend,
             backend: this.props.backend
@@ -22,8 +23,6 @@ class Versions extends Component {
     }
 
     onApiData(data) {
-        let title = 'Titulo';
-
         console.log(JSON.stringify(data));
 
         let frontendVersion = data[0].version;
@@ -31,8 +30,7 @@ class Versions extends Component {
 
         this.setState({
             frontendVersion,
-            backendVersion,
-            title
+            backendVersion
         });
     }
 
@@ -41,8 +39,8 @@ class Versions extends Component {
         var frontendVersion = [];
         var backendVersion = "";
 
-        if (this.state.title){
-            title = this.state.title;
+        if (this.props.title){
+            title = this.props.title;
         }
 
         if (this.state.frontendVersion){
@@ -59,11 +57,13 @@ class Versions extends Component {
                     <span className="widget__header__subject">
                         {title}
                     </span>
-                    <i className="fa fa-table" />
+                    <i className="fa fa-tasks" />
                 </div>
-                <div className="nagios__content">
-                    <div>Front-end: {frontendVersion}</div>
-                    <div>Back-end: {backendVersion}</div>
+                <div className="versions__content">
+                    <div className="versions__description">WebAPP:</div>
+                    <div className="versions__value">{frontendVersion}</div>
+                    <div className="versions__description">CORE:</div>
+                    <div className="versions__value">{backendVersion}</div>
                 </div>
             </div>
         );
